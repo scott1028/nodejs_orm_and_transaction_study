@@ -1,0 +1,17 @@
+{
+  "name": "nodeServer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "mysql": "^2.9.0",
+    "node-orm": "^2.1.15",
+    "orm": "^2.1.26"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
