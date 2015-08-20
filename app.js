@@ -1,47 +1,74 @@
 'use strict';
 
 
+//
 var orm = require('orm');
-
-orm.connect('mysql://root:27562952@127.0.0.1/ssd_data', function(err, db){
-	if(err) throw err;
+var transaction = require("orm-transaction");
 
 
-	//
-	var User = db.define("user", {
-        User_ID: String,
-        User_Name: String,
-        Password: String,
-    }, {
-        methods: {
-            fullName: function () {
-                return this.User_Name + '(' + this.User_ID + ')';
-            }
-        },
-        validations: {
-            
-        }
+//
+orm.connect('mysql://root:password@127.0.0.1/ssd_data', function (err, db){
+    if(err) throw err;
+
+    //
+    db.use(transaction);
+
+
+    //
+    var User = require('./models.js')(db).User;
+
+
+    //
+    db.sync(function (err){
+        if(err) throw err;
+
+
+        //
+        User.find({User_ID: 'admin'}).each(function (obj){
+            if(err) throw err;
+
+
+            // Query
+            console.log(obj.User_ID);
+            console.log(obj.User_Name);
+            console.log(obj.Password);
+
+
+            // Update
+            obj.User_Name = new Date + '';
+            obj.save(function (err){
+                if(err) throw err;
+            });
+
+
+            // transaction operation update
+            db.transaction(function (err, t){
+                if(err) throw err;
+
+
+                //
+                obj.User_Name = new Date + '';
+                obj.save(function (err){
+                    if(err) throw err;
+                });
+
+
+                //
+                t.commit(function (err){
+                    if(err) throw err;
+                    console.log("success!");
+                });
+            });
+        });
+
+
+        // non-transaction operation
+        User.find({User_ID: 'admin'}).each(function (obj){
+            // Update
+            obj.User_Name = new Date + '';
+            obj.save(function (err){
+                if(err) throw err;
+            });
+        });
     });
-
-
-	//
-	db.sync(function(err){
-		if(err) throw err;
-
-
-		//
-		User.find({User_ID: 'admin'}, function(err, obj){
-			if(err) throw err;
-
-			console.log(obj);
-
-			console.log(obj[0].User_ID);
-			console.log(obj[0].User_Name);
-			console.log(obj[0].Password);
-			obj[0].User_Name = 'test by nodeJs';
-			obj[0].save(function(err){
-				if(err) throw err;
-			});
-		});
-	});
 });

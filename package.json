@@ -6,7 +6,8 @@
   "dependencies": {
     "mysql": "^2.9.0",
     "node-orm": "^2.1.15",
-    "orm": "^2.1.26"
+    "orm": "^2.1.26",
+    "orm-transaction": "0.0.2"
   },
   "devDependencies": {},
   "scripts": {
