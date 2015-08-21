@@ -1,3 +1,7 @@
+'use strict';
+
+
+//
 module.exports = function (db){
     return {
         User: db.define("user", {

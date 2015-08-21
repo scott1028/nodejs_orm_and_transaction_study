@@ -4,11 +4,13 @@
 //
 var orm = require('orm');
 var transaction = require("orm-transaction");
+var error = require('./errors.js');
 
 
 //
 orm.connect('mysql://root:password@127.0.0.1/ssd_data', function (err, db){
-    if(err) throw err;
+    error.handler(err);
+
 
     //
     db.use(transaction);
@@ -20,12 +22,11 @@ orm.connect('mysql://root:password@127.0.0.1/ssd_data', function (err, db){
 
     //
     db.sync(function (err){
-        if(err) throw err;
+        error.handler(err);
 
 
         //
         User.find({User_ID: 'admin'}).each(function (obj){
-            if(err) throw err;
 
 
             // Query
@@ -37,25 +38,25 @@ orm.connect('mysql://root:password@127.0.0.1/ssd_data', function (err, db){
             // Update
             obj.User_Name = new Date + '';
             obj.save(function (err){
-                if(err) throw err;
+                error.handler(err);
             });
 
 
             // transaction operation update
             db.transaction(function (err, t){
-                if(err) throw err;
+                error.handler(err);
 
 
                 //
                 obj.User_Name = new Date + '';
                 obj.save(function (err){
-                    if(err) throw err;
+                    error.handler(err);
                 });
 
 
                 //
                 t.commit(function (err){
-                    if(err) throw err;
+                    error.handler(err);
                     console.log("success!");
                 });
             });
@@ -67,7 +68,7 @@ orm.connect('mysql://root:password@127.0.0.1/ssd_data', function (err, db){
             // Update
             obj.User_Name = new Date + '';
             obj.save(function (err){
-                if(err) throw err;
+                error.handler(err);
             });
         });
     });
