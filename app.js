@@ -37,9 +37,7 @@ orm.connect('mysql://root:password@127.0.0.1/ssd_data', function (err, db){
 
             // Update
             obj.User_Name = new Date + '';
-            obj.save(function (err){
-                error.handler(err);
-            });
+            obj.save(error.handler);
 
 
             // transaction operation update
@@ -49,9 +47,7 @@ orm.connect('mysql://root:password@127.0.0.1/ssd_data', function (err, db){
 
                 //
                 obj.User_Name = new Date + '';
-                obj.save(function (err){
-                    error.handler(err);
-                });
+                obj.save(error.handler);
 
 
                 //
@@ -67,9 +63,7 @@ orm.connect('mysql://root:password@127.0.0.1/ssd_data', function (err, db){
         User.find({User_ID: 'admin'}).each(function (obj){
             // Update
             obj.User_Name = new Date + '';
-            obj.save(function (err){
-                error.handler(err);
-            });
+            obj.save(error.handler);
         });
     });
 });
