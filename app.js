@@ -8,7 +8,7 @@ var error = require('./errors.js');
 
 
 //
-orm.connect('mysql://root:27562952@127.0.0.1/ssd_data', function (err, db){
+orm.connect('mysql://root:password@127.0.0.1/ssd_data', function (err, db){
     error.handler(err);
 
 
