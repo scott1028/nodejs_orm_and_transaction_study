@@ -8,7 +8,7 @@ var error = require('./errors.js');
 
 
 //
-orm.connect('mysql://root:password@127.0.0.1/ssd_data', function (err, db){
+orm.connect('mysql://root:27562952@127.0.0.1/ssd_data', function (err, db){
     error.handler(err);
 
 
@@ -46,7 +46,7 @@ orm.connect('mysql://root:password@127.0.0.1/ssd_data', function (err, db){
 
 
                 //
-                obj.User_Name = new Date + '';
+                obj.User_Name = new Date + '#1';
                 obj.save(error.handler);
 
 
@@ -62,8 +62,32 @@ orm.connect('mysql://root:password@127.0.0.1/ssd_data', function (err, db){
         // non-transaction operation
         User.find({User_ID: 'admin'}).each(function (obj){
             // Update
-            obj.User_Name = new Date + '';
+            obj.User_Name = new Date + '#2';
             obj.save(error.handler);
+        });
+
+
+
+        // rollback transaction operation
+        User.find({User_ID: 'admin'}).each(function (obj){
+
+
+            // transaction operation update
+            db.transaction(function (err, t){
+                error.handler(err);
+
+
+                //
+                obj.User_Name = new Date + '#3';
+                obj.save(error.handler);
+
+
+                //
+                t.rollback(function (err){
+                    error.handler(err);
+                    console.log("success!");
+                });
+            });
         });
     });
 });

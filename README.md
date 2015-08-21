@@ -10,4 +10,5 @@ http://stackoverflow.com/questions/8834168/how-to-require-a-file-in-node-js-and-
 https://github.com/dresende/node-orm-transaction
 https://github.com/dresende/node-orm2
 https://github.com/martintajur/node-mysql-activerecord
+https://github.com/dresende/node-orm-transaction/blob/master/lib/plugin.js  (node-orm-transaction source code: commit & rollback)
 ~~~
